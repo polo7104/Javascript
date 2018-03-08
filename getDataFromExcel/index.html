@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Get Data Excel</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+    <script src="xlsx.full.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div style="padding:20px 100px;">
+        <textarea id="txtArea" class="form-control" rows="5" ></textarea>
+    </div>
+    <div align="right" style="padding:10px 100px;">
+        <input class="btn btn-default" type="button" value="Get Excel" onclick="javascript:$('#inputFile').click();">
+        <input type="file" id="inputFile" style="display: none" />
+    </div>
+<script>
+
+    var rABS = true; // T : 바이너리, F : 어레이 버퍼
+
+    // 어레이 버퍼를 처리한다 ( 오직 readAsArrayBuffer 데이터만 가능하다 )
+    function fixdata(data) {
+        var o = "", l = 0, w = 10240;
+        for(; l<data.byteLength/w; ++l) o+=String.fromCharCode.apply(null,new Uint8Array(data.slice(l*w,l*w+w)));
+        o+=String.fromCharCode.apply(null, new Uint8Array(data.slice(l*w)));
+        return o;
+    }
+
+    // 데이터를 바이너리 스트링으로 얻는다.
+    function getConvertDataToBin($data){
+        var arraybuffer = $data;
+        var data = new Uint8Array(arraybuffer);
+        var arr = new Array();
+        for(var i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);
+        var bstr = arr.join("");
+        return bstr;
+    }
+
+    function handleFile(e){
+        var files = e.target.files;
+        var i,f;
+        for (i = 0; i != files.length; ++i){
+            f = files[i];
+            var reader = new FileReader();
+            var name = f.name;
+
+            reader.onload = function(e){
+                var data = e.target.result;
+                var workbook;
+                if(rABS){
+                    /* if binary string, read with type 'binary' */
+                    workbook = XLSX.read(data, {type: 'binary'});
+                }else{
+                    /* if array buffer, convert to base64 */
+                    var arr = fixdata(data);
+                    workbook = XLSX.read(btoa(arr), {type: 'base64'});
+                }
+                /* 워크북 처리 */
+                workbook.SheetNames.forEach(function(item, index, array) {
+                    var csv = XLSX.utils.sheet_to_csv(workbook.Sheets[item]);
+//                var html = XLSX.utils.sheet_to_html(workbook.Sheets[item]);
+//                var json = XLSX.utils.sheet_to_json(workbook.Sheets[item]);
+//                var formulae = XLSX.utils.sheet_to_formulae(workbook.Sheets[item]);
+                    var addHtml = '';
+                    csv.split('\n').forEach(function(v,k){
+                        var a = v.split(',');
+                        addHtml += a.join(' ')+'\n';
+                    })
+                    $('#txtArea').val(addHtml);
+                });
+            };
+            if(rABS) reader.readAsBinaryString(f);
+            else reader.readAsArrayBuffer(f);
+        }
+    }
+    // $(documnet).ready(function() {
+        f = document.getElementById('inputFile');
+        if(f.addEventListener) {
+            f.addEventListener('change', handleFile, false);
+        }
+    // });
+</script>
+</body>
+</html>
