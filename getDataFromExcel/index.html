@@ -20,9 +20,9 @@
     </div>
 <script>
 
-    var rABS = true; // T : 바이너리, F : 어레이 버퍼
+    var rABS = true; // T : binary, F : array buffer
 
-    // 어레이 버퍼를 처리한다 ( 오직 readAsArrayBuffer 데이터만 가능하다 )
+    // array buffer
     function fixdata(data) {
         var o = "", l = 0, w = 10240;
         for(; l<data.byteLength/w; ++l) o+=String.fromCharCode.apply(null,new Uint8Array(data.slice(l*w,l*w+w)));
@@ -30,7 +30,7 @@
         return o;
     }
 
-    // 데이터를 바이너리 스트링으로 얻는다.
+    // 데이터를 바이너리 스트링으로 얻는다. get Data as binary string
     function getConvertDataToBin($data){
         var arraybuffer = $data;
         var data = new Uint8Array(arraybuffer);
@@ -77,12 +77,12 @@
             else reader.readAsArrayBuffer(f);
         }
     }
-    // $(documnet).ready(function() {
+    $(function() {
         f = document.getElementById('inputFile');
         if(f.addEventListener) {
             f.addEventListener('change', handleFile, false);
         }
-    // });
+    });
 </script>
 </body>
 </html>
