@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Design</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <style>
         .div-container{
             margin : 10px 10px;
@@ -45,33 +47,95 @@
             box-shadow: 0 0 20px pink;
             cursor:pointer;
         }
+        .div-video{
+            margin:5px;
+            padding:10px;
+            border:1px solid #ccc;
+            width:640px;
+            height:360px;
+        }
+        .div-video-layer {
+            background: none;
+            zoom: 1;
+            opacity: 1;
+            position: fixed;
+            right: 812px;
+            bottom: 215px;
+            padding-right: 29px; z-index: 3001; width: 384px; height: 216px;
+        }
+        .yt-header{
+            height: 30px;
+            background-color: black;
+            width: 384px;
+            color: white;
+            text-align: right;
+            vertical-align: middle;
+        }
+        .yt-header-a{
+            padding-right: 7px;
+            cursor: pointer;
+        }
+        .video-layer-btn{
+
+
+        }
     </style>
 </head>
 <body>
-<div class="div-container">
-    <div class="div-box">
-        Modern Box and Hover Defalut
+<div>
+    <div class="div-container">
+        <div class="div-box">
+            Modern Box and Hover Defalut
+        </div>
+        <div class="div-box shadow-red">
+            Modern Box and Hover Red
+        </div>
+        <div class="div-box shadow-black">
+            Modern Box and Hover Black
+        </div>
+        <div class="div-box shadow-yellow">
+            Modern Box and Hover Yellow
+        </div>
+        <div class="div-box shadow-blue">
+            Modern Box and Hover Blue
+        </div>
+        <div class="div-box shadow-orangered">
+            Modern Box and Hover OrangeRed
+        </div>
+        <div class="div-box shadow-pink">
+            Modern Box and Hover Pink
+        </div>
     </div>
-    <div class="div-box shadow-red">
-        Modern Box and Hover Red
-    </div>
-    <div class="div-box shadow-black">
-        Modern Box and Hover Black
-    </div>
-    <div class="div-box shadow-yellow">
-        Modern Box and Hover Yellow
-    </div>
-    <div class="div-box shadow-blue">
-        Modern Box and Hover Blue
-    </div>
-    <div class="div-box shadow-orangered">
-        Modern Box and Hover OrangeRed
-    </div>
-    <div class="div-box shadow-pink">
-        Modern Box and Hover Pink
+    <div class="div-container ">
+        <div id ="div_yt"  class="div-video">
+            <iframe id="ytplayer" type="text/html" width="640" height="360"
+                    src="http://www.youtube.com/embed/7TABDbUR7mQ?autoplay=1&origin=https://www.youtube.com/watch?v=7TABDbUR7mQ"
+                    frameborder="0"></iframe>
+        </div>
+        <div width="500px">
+            <input type="button" class="div-box video-layer-btn" value="Layer" />
+        </div>
     </div>
 </div>
 
+<script>
+    $('.video-layer-btn').click( ()=>{
+        var classNm = $('#div_yt').attr('class');
+        var header = '<div class="yt-header"><span  class="yt-header-a" onclick="javascript:$(\'.video-layer-btn\').trigger(\'click\')"  style="z-index: 3002;">X</span></div>'
+        if(classNm == 'div-video') {
+            $('#div_yt').prepend( header );
+            $('#div_yt').attr('class', 'div-video-layer');
+            //384px; height: 216px;
+            $('#ytplayer').width('384px').height('216px');
+            $('#div_yt').draggable();
+        }else {
+            $('.yt-header').remove();
+            $('#div_yt').attr('class', 'div-video');
+            $('#div_yt').draggable({ disabled: false });
+            $('#ytplayer').width('640px').height('360px');
+        }
+    })
+</script>
 
 </body>
 </html>
