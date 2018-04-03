@@ -3,83 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Design</title>
+    <link rel="stylesheet" type="text/css" href="1.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <style>
-        .div-container{
-            margin : 10px 10px;
-            border : 1px solid #ccc;
-            padding : 10px;
-        }
-        .div-box{
-            display:inline-block;
-            margin:5px;
-            padding:10px;
-            border:1px solid #ccc;
-            transition: all 0.3s;
-            line-height:1.5;
-        }
-        .div-box:hover{
-            box-shadow: 0 0 20px rgba(0,0,0,0.2);
-            cursor:pointer;
-        }
-        .shadow-red:hover{
-            box-shadow: 0 0 20px red;
-            cursor:pointer;
-        }
-        .shadow-black:hover{
-            box-shadow: 0 0 20px black;
-            cursor:pointer;
-        }
-        .shadow-yellow:hover{
-            box-shadow: 0 0 20px yellow;
-            cursor:pointer;
-        }
-        .shadow-blue:hover{
-            box-shadow: 0 0 20px blue;
-            cursor:pointer;
-        }
-        .shadow-orangered:hover{
-            box-shadow: 0 0 20px orangered;
-            cursor:pointer;
-        }
-        .shadow-pink:hover{
-            box-shadow: 0 0 20px pink;
-            cursor:pointer;
-        }
-        .div-video{
-            margin:5px;
-            padding:10px;
-            border:1px solid #ccc;
-            width:640px;
-            height:360px;
-        }
-        .div-video-layer {
-            background: none;
-            zoom: 1;
-            opacity: 1;
-            position: fixed;
-            right: 812px;
-            bottom: 215px;
-            padding-right: 29px; z-index: 3001; width: 384px; height: 216px;
-        }
-        .yt-header{
-            height: 30px;
-            background-color: black;
-            width: 384px;
-            color: white;
-            text-align: right;
-            vertical-align: middle;
-        }
-        .yt-header-a{
-            padding-right: 7px;
-            cursor: pointer;
-        }
-        .video-layer-btn{
-
-
-        }
-    </style>
 </head>
 <body>
 <div>
@@ -106,6 +33,20 @@
             Modern Box and Hover Pink
         </div>
     </div>
+    <div class="div-container div-context-menu">
+        <ul>
+            <li class="li-list">
+                <div class="li-list-icon" style="cursor: pointer;" onclick="">
+                    <img src="img/folder_full_fm_grid.png"/>
+                </div>
+                <span class="li-list-text" style="cursor: pointer;" >Folder</span>
+            </li>
+        </ul>
+    </div>
+    <div class="" id="ct_menu" style="position:absolute ;display: none; z-index: 4000;"></div>
+
+
+
     <div class="div-container ">
         <div id ="div_yt"  class="div-video">
             <iframe id="ytplayer" type="text/html" width="640" height="360"
@@ -135,6 +76,64 @@
             $('#ytplayer').width('640px').height('360px');
         }
     })
+    $(".div-container.div-context-menu").on('contextmenu', function(e) {
+        e.preventDefault();
+        // hideOpenContextMenus();
+        var items = '';
+
+            items = {
+                "Upload": {
+                    "label": "파일 업로드",
+                    "icon": "glyphicon glyphicon-cloud-upload",
+                    "separator_after": true,
+                    "action": function(obj) {
+                        uploadFiles();
+                    }
+                },
+                "Add": {
+                    "label": "폴더 추가",
+                    "icon": "glyphicon glyphicon-plus",
+                    "separator_after": true,
+                    "action": function(obj) {
+                        showAddFolderForm();
+                    }
+                },
+                "SelectAll": {
+                    "label": "전체선택",
+                    "icon": "glyphicon glyphicon-check",
+                    "action": function(obj) {
+                        selectAllFiles();
+                    }
+                },
+                "ClearAll": {
+                    "label": "선택해제",
+                    "icon": "glyphicon glyphicon-unchecked",
+                    "action": function(obj) {
+                        clearSelected();
+                    }
+                }
+            };
+        fnSetContextMenu(items, e.pageX, e.pageY, this);
+        console.log( e.pageX, ' : ', e.pageY);
+        // $.vakata.context.show(items, $(this), e.pageX, e.pageY, this);
+        // return false;
+    });
+    function fnSetContextMenu(items, top, left, obj)
+    {
+        var html =
+            '    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display:block;position:static;margin-bottom:5px;">\n' +
+            '        <li class="" data-clipboard-action="copy" data-clipboard-target="#clipboard-placeholder"><a href="#" rel="Upload"><span class="context-menu-icon"><span class="glyphicon glyphicon-cloud-upload"></span></span>선택 폴더에 파일 업로드</a></li>\n' +
+            '        <li class="" data-clipboard-action="copy" data-clipboard-target="#clipboard-placeholder"><a href="#" rel="Add"><span class="context-menu-icon"><span class="glyphicon glyphicon-plus"></span></span>선택 폴더에 폴더 생성</a></li>\n' +
+            '        <li class="" data-clipboard-action="copy" data-clipboard-target="#clipboard-placeholder"><a href="#" rel="Edit"><span class="context-menu-icon"><span class="glyphicon glyphicon-pencil"></span></span>수정</a></li>\n' +
+            '        <li class="" data-clipboard-action="copy" data-clipboard-target="#clipboard-placeholder"><a href="#" rel="Share"><span class="context-menu-icon"><span class="glyphicon glyphicon-share"></span></span>공유</a></li>\n' +
+            '        <li class="" data-clipboard-action="copy" data-clipboard-target="#clipboard-placeholder"><a href="#" rel="Delete"><span class="context-menu-icon"><span class="glyphicon glyphicon-remove"></span></span>삭제</a></li>\n' +
+            '    </ul>';
+
+        $('#ct_menu').html(html);
+        $('#ct_menu').css('top',top).css('left',left).show();
+
+
+    }
 </script>
 
 </body>
