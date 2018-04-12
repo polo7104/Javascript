@@ -7,7 +7,7 @@ const fs = require('fs');
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 
-const ytdl = require("youtube-dl.js");
+const ytdl = require("youtube-dl");
 
 app.post('/mp3/extract',(req,res)=>{
     var url = req.body.url;
