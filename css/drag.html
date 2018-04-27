@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Drag and Drop</title>
+    <!-- 합쳐지고 최소화된 최신 CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+    <!-- 부가적인 테마 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+    <style>
+        #divContainer{
+            text-align: center;
+
+        }
+        #divWrapper{
+            padding-top:10%;
+        }
+        div.rack{
+            /*border:1px solid red;*/
+            display: inline-block;
+
+        }
+        .connectedSortable {
+            border: 1px solid #dddeee;
+            border-radius: 5px;
+            width: 250px;
+            min-height: 20px;
+            list-style-type: none;
+            margin: 20px;
+            padding: 5px 0 0 0;
+            float: left;
+            text-align: center;
+        }
+        .connectedSortable li {
+            border: 1px solid #eee;
+            margin: 10px;
+            padding: 5px;
+            font-size: 1.2em;
+            width: 90%;
+            cursor: pointer;
+        }
+        .rack .header{
+            height: 66px;
+            text-align: center;
+            border: 1px solid #ccc;
+            width: 37%;
+            margin: auto;
+            border-radius: 5px;
+
+        }
+    </style>
+    <script>
+        $( function() {
+            $( "#sortable1, #sortable2, #sortable3, #sortable4" ).sortable({
+                connectWith: ".connectedSortable"
+            }).disableSelection();
+            $(".connectedSortable" ).on( "sortreceive", function( event, ui ) {
+                var parentId = $(ui.item[0]).parent().attr('id');
+                var elemId = $(ui.item[0]).attr('id');
+                var elemMovedIndex = $('#'+parentId).find('li[id="'+elemId+'"]').index();
+                console.log('elemId : ','parentId : ',parentId,', elem moved position index : ',elemMovedIndex);
+            });
+            // $(".connectedSortable" ).on( "sortchange", function( event, ui ) {console.log('ccc');} );
+            // $(".connectedSortable" ).on( "sortupdate", function( event, ui ) {console.log('ddd');} );
+        } );
+
+
+    </script>
+</head>
+<body>
+    <div id="divContainer">
+        <div id="divWrapper">
+            <div class="rack">
+                <div class="header">
+                    <h3>J04</h3>
+                </div>
+                <div>
+                    <ul id="sortable1" class="connectedSortable">
+                        <li class="ui-state-default" id="0401">Item 1</li>
+                        <li class="ui-state-default" id="0402">Item 2</li>
+                        <li class="ui-state-default" id="0403">Item 3</li>
+                        <li class="ui-state-default" id="0404">Item 4</li>
+                        <li class="ui-state-default" id="0405">Item 5</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="rack">
+                <div class="header">
+                    <h3>J05</h3>
+                </div>
+                <div>
+                    <ul id="sortable2" class="connectedSortable">
+                        <li class="ui-state-default">Item 1</li>
+                        <li class="ui-state-default">Item 2</li>
+                        <li class="ui-state-default">Item 3</li>
+                        <li class="ui-state-default">Item 4</li>
+                        <li class="ui-state-default">Item 5</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="rack">
+                <div class="header">
+                    <h3>J06</h3>
+                </div>
+                <div>
+                    <ul id="sortable3" class="connectedSortable">
+                        <li class="ui-state-default">Item 1</li>
+                        <li class="ui-state-default">Item 2</li>
+                        <li class="ui-state-default">Item 3</li>
+                        <li class="ui-state-default">Item 4</li>
+                        <li class="ui-state-default">Item 5</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="rack">
+                <div class="header">
+                    <h3>J07</h3>
+                </div>
+                <div>
+                    <ul id="sortable4" class="connectedSortable">
+                        <li class="ui-state-default">Item 1</li>
+                        <li class="ui-state-default">Item 2</li>
+                        <li class="ui-state-default">Item 3</li>
+                        <li class="ui-state-default">Item 4</li>
+                        <li class="ui-state-default">Item 5</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
