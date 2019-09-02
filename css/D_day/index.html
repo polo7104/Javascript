@@ -66,6 +66,11 @@ p { margin:150px auto 50px auto; text-align:center; font-family:raleway,sans-ser
 
     <body>
 
+    <p>Let's Go A4 Gangneung</p>
+    <div class="countdown-timer-wrapper">
+        <div class="timer" id="countdown2"></div>
+    </div>
+
     <p>Let's Go A4 Taiwan Again</p>
     <div class="countdown-timer-wrapper">
       <div class="timer" id="countdown"></div>
@@ -73,9 +78,19 @@ p { margin:150px auto 50px auto; text-align:center; font-family:raleway,sans-ser
 <script>
         $(document).ready(function () {
 
-            var myDate = new Date('October 1, 2019 07:00:00');
+            var myDate = new Date('October 16, 2019 05:00:00');
             myDate.setDate(myDate.getDate());
             $("#countdown").countdown(myDate, function (event) {
+                $(this).html(
+                    event.strftime(
+                        '<div class="timer-wrapper"><div class="time">%D</div><span class="text">days</span></div><div class="timer-wrapper"><div class="time">%H</div><span class="text">hrs</span></div><div class="timer-wrapper"><div class="time">%M</div><span class="text">mins</span></div><div class="timer-wrapper"><div class="time">%S</div><span class="text">sec</span></div>'
+                    )
+                );
+            });
+
+            var myDate2 = new Date('September 20, 2019 14:00:00');
+            myDate2.setDate(myDate.getDate());
+            $("#countdown2").countdown(myDate2, function (event) {
                 $(this).html(
                     event.strftime(
                         '<div class="timer-wrapper"><div class="time">%D</div><span class="text">days</span></div><div class="timer-wrapper"><div class="time">%H</div><span class="text">hrs</span></div><div class="timer-wrapper"><div class="time">%M</div><span class="text">mins</span></div><div class="timer-wrapper"><div class="time">%S</div><span class="text">sec</span></div>'
