@@ -89,7 +89,7 @@ p { margin:150px auto 50px auto; text-align:center; font-family:raleway,sans-ser
             });
 
             var myDate2 = new Date('September 20, 2019 14:00:00');
-            myDate2.setDate(myDate.getDate());
+            myDate2.setDate(myDate2.getDate());
             $("#countdown2").countdown(myDate2, function (event) {
                 $(this).html(
                     event.strftime(
